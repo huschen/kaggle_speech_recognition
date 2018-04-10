@@ -1,0 +1,10 @@
+# Byte-compiled 
+__pycache__/
+
+# mac
+.DS_Store
+
+# dirs
+dataset/
+run/
+submissions/
