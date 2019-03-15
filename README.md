@@ -6,7 +6,7 @@ The model is a Convolution Residual, backward LSTM network using Connectionist T
 ![](diagram.png)
 The audio wave files are firstly converted into filter bank spectrograms. CNN layers abstract hierarchical features from spectrogram input, while LSTM layer acts like encoder-decoder, encoding the sequence of CNN features and emitting characters as outputs. The LSTM encoder-decoder is very dynamic. Depending on the training vocabularies, the emitted characters may be encoded with the information of whole words, syllables or just phonemes. Fully connected layers compresses the representations and further decouple characters from the words.
 
-The project is designed to be debugging and visualisation friendly. The interfaces are provided to visualise weights and activations, to log for TensorBoard and to record the learning history of sample words showing how characters and decision boundaries are learnt in training.
+The project is designed to be debugging and visualisation friendly. The interfaces are provided to [visualise](tools/visual) weights and activations, to log for TensorBoard and to record the learning [history](tools/visual/hist_right.txt) of sample words showing how characters and decision boundaries are learnt in training.
 
 
 ### Installation and Usage:
@@ -25,6 +25,8 @@ The test set has 158,538 samples and new words not seen in the training set. The
 | ----------------- | ----------------- | ----------------- | ----------------- | ----------------- | ----------------- |
 | Single run (4/5 of training samples) | 98.14%, 98.47% | 96.190%, 99.658% | 88.240% | 89.357% | 85 |
 | Average over 5 folds (runs) | - | 96.650%, 99.729% | 88.706% | 89.874% | 49 |
+
+Better performance is achievable by averaging over more runs with varied parameters, as a result of both smoothing the decision boundaries and randomly getting closer to those of the test set.
 
 
 ### Learning Characters(Phonemes) vs Learning Words:
@@ -46,4 +48,3 @@ Advantages:
 * Generalisation. The c-model is able to learn unseen words, e.g. recognizing 'night' from learning 'NIne' and 'rIGHT', recognizing 'follow' as 'foow' (missing 'l' sound) from learning 'Four' 'dOWn' and 'nO'.
 * Easier to scale up to larger vocabularies, with the increase of the number of LSTM hidden units, as well as the increase of the training time when learning longer words. Bi-Directional LSTM will be needed to capture more complex patterns.
 * In practise, the property of high false negative (and low false positive) rate is likely a desired feature for key commands detecting applications. It is possible that the models will be customized to end users (with the balance of being general) so that the accents won't be a problem.
-
